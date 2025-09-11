@@ -31,12 +31,12 @@ The environment consists of three interconnected virtual machines:
 │ │ └── instructions.md  
 │ ├── 02-windows-vm/  
 │ │ ├── overview.md  
-│ │ ├── vulnerabilities.md  
+│ │ ├── vulnerabilities.md    
 │ │ └── instructions.md  
-│ └── 03-kali-attacker/  
-│   ├── overview.md  
-│   ├── tools.md  
-│   └── instructions.md  
+│ ├── 03-kali-attacker/  
+│ │ ├── overview.md  
+│ │ ├── tools.md  
+│ │ └── instructions.md  
 
 ## 🚀 How to Use
 1. Start with [`prerequisites.md`](./prerequisites.md) to set up your environment.
