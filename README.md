@@ -15,30 +15,28 @@ The environment consists of three interconnected virtual machines:
 - Develop a defensive mindset by learning mitigation strategies.
 
 ## 📂 Repository Structure
-'''
-31261-internetworking/
-├── README.md # Project overview (this file)
-├── prerequisites.md # Setup instructions and requirements
-├── docs/ # Project-wide documentation
-│ ├── reset.md
-│ ├── future-plans.md
-│ └── references.md
-├── labs/
-│ ├── 00-introduction/
-│ │ └── overview.md
-│ ├── 01-linux-vm/
-│ │ ├── overview.md
-│ │ ├── vulnerabilities.md
-│ │ └── instructions.md
-│ ├── 02-windows-vm/
-│ │ ├── overview.md
-│ │ ├── vulnerabilities.md
-│ │ └── instructions.md
-│ └── 03-kali-attacker/
-│   ├── overview.md
-│   ├── tools.md
-│   └── instructions.md
-'''
+31261-internetworking/  
+├── README.md # Project overview (this file)  
+├── prerequisites.md # Setup instructions and requirements  
+├── docs/ # Project-wide documentation  
+│ ├── reset.md  
+│ ├── future-plans.md  
+│ └── references.md  
+├── labs/  
+│ ├── 00-introduction/  
+│ │ └── overview.md  
+│ ├── 01-linux-vm/  
+│ │ ├── overview.md  
+│ │ ├── vulnerabilities.md  
+│ │ └── instructions.md  
+│ ├── 02-windows-vm/  
+│ │ ├── overview.md  
+│ │ ├── vulnerabilities.md  
+│ │ └── instructions.md  
+│ └── 03-kali-attacker/  
+│   ├── overview.md  
+│   ├── tools.md  
+│   └── instructions.md  
 
 ## 🚀 How to Use
 1. Start with [`prerequisites.md`](./prerequisites.md) to set up your environment.
