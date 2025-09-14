@@ -1,22 +1,24 @@
-# Introduction to the Cybersecurity Lab Environment
+# Introduction to Cybersecurity Labs
 
-Welcome to your interactive cybersecurity learning environment. This VM-based environment is designed to give students hands-on experience with common cybersecurity vulnerabilities, defensive techniques, and the use of penetration testing tools in a safe and controlled manner.
+Welcome to your interactive cybersecurity learning environment.  
+This project provides a safe space to explore and exploit common security vulnerabilities without real-world risk.
 
-## Purpose
-The goal of this lab environment is to bridge the gap between theory and practice in cybersecurity education. By working in isolated virtual machines, students can explore vulnerabilities, practice exploitation, and learn how to remediate issues without risk to real-world systems.
+## How the Labs Work
+- The environment consists of three VMs:  
+  - **Linux Target (01)** – intentionally vulnerable server-side applications.  
+  - **Windows Target (02)** – misconfigurations and insecure user practices.  
+  - **Kali Attacker (03)** – penetration testing distribution with preinstalled tools.  
 
-## Structure
-- **Labs:** The environment contains three core VMs: Linux target, Windows target, and Kali attacker.
-- **Guided Learning:** Each lab contains structured exercises with overviews, theoretical background, and practical instructions.
-- **Safety:** All activities are contained within the VMs and should never be attempted outside this environment.
+- You will use the **Kali VM throughout all labs** to attack the Linux and Windows machines.  
+- The Kali lab (03) is structured as a **tool reference guide**. It does not need to be completed last — instead, use it alongside the other labs whenever you need to learn about or practice with a tool.
 
-## Real-World Relevance
-Understanding how vulnerabilities appear in controlled environments prepares students for practical security work. The lab encourages a defensive mindset by showing how attackers exploit weaknesses and how mitigation strategies can be applied.
+## Recommended Lab Order
+1. Read this introduction.  
+2. Complete the **Linux VM lab (01)**.  
+3. Complete the **Windows VM lab (02)**.  
+4. Use the **Kali Attacker lab (03)** as a reference whenever tools are required.  
 
-## Learning Outcomes
-By completing the introduction lab, students will:
-1. Understand the purpose of each VM in the environment.
-2. Become familiar with the folder and file structure for labs.
-3. Learn how to navigate the lab safely and effectively.
-4. Understand the objectives of future labs and the skills they will build.
+## Disclaimer
+These labs are for **educational purposes only**.  
+Do not use the techniques outside of this VM environment. Misuse of these tools outside a safe lab environment may be **illegal**.
 
