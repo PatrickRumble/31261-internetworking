@@ -42,7 +42,7 @@ curl -I http://xxs.local/
 
 ### 2.2 Normal input (confirm baseline)
 1. Enter `My Comment!` into the input box.  
-![Comment Box Input](/31261-internetworking/lab/01-Linux-VM/screenshots/xss-2.png)  
+![Comment Box Input](screenshots/xss-2.png)  
 2. Click **Submit / Post**.  
 3. Verify the page reloads and shows `My Comment!` rendered as plain text.
 
