@@ -39,6 +39,7 @@ curl -I http://xxs.local/
 ### 2.1 Inspect the page
 1. Open `http://xxs.local/` in a browser.  
 2. Locate the input field used by the app (comment box, search bar, etc.). Note whether input is submitted via GET (URL) or POST.
+![Input Field](screenshots/xss-1.png)  
 
 ### 2.2 Normal input (confirm baseline)
 1. Enter `My Comment!` into the input box.  
@@ -51,15 +52,16 @@ curl -I http://xxs.local/
 ### 2.3 Malicious input (payload)
 1. In the same input, enter the following payload exactly (paste into the comment/search box):
 ```html
-<script>alert(1);</script>
+<script>javascript:alert(1);</script>
 ```
+![Comment Box Input](screenshots/xss-4.png)  
 2. Click **Submit / Post**.
 
 **Expected:** Instead of showing the text, the browser will execute the script. In our instance, a small alert pop-up box appears with the number '1' inside. This happens because the website is not sanitising or escaping user input. It's treating what we type as plain text and inserting it directly into the HTML page. The alert is actually harmless however, it proves that the website is vulnerable to XSS. The key indicator is that `<script>` tags execute — vulnerability confirmed.
 
 > If the lab blocks outgoing requests, use a benign proof payload:
 ```html
-<script>alert(1)</script>
+<script>javascript:alert(1)</script>
 ```
 
 ### 2.4 Reflected via URL (GET)
@@ -96,6 +98,7 @@ http://xxs.local/search?q=<script>alert('XSS')</script>
 ```html
 <h1>bold comment!</h1>
 ```
+![HTML Comment Box Input](screenshots/xss-6.png)    
 2. Click **Post**.
 
 **Expected:** The comment displays as a large `<h1>` heading — the server did not escape tags.
@@ -109,17 +112,20 @@ http://xxs.local/search?q=<script>alert('XSS')</script>
 
 ### 4.1 Visit the login page
 1. Open `http://sqlinjection.local/` with the login form visible.
+![Login Form](screenshots/xss-8.png)  
 
 ### 4.2 Try a normal failing login
-1. Enter an invalid username and password (e.g., `noone` / `wrong`).  
+1. Enter an invalid username and password (e.g., `admin` / `password`).  
 2. Observe the error message (e.g., `Invalid username or password`).
+![Invalid Username and Password Input](screenshots/xss-9.png)  
 
 ### 4.3 Bypass with payload
 1. In the **Username** field enter:
 ```vbnet
 admin' OR 1=1--
 ```
-2. Leave the password blank and click **Login**.
+2. Leave the password blank (or enter anything) and click **Login**.
+![Payload SQL Injection Input](screenshots/xss-10.png)  
 
 **What happens:** If the application constructs a SQL query like:
 ```sql
