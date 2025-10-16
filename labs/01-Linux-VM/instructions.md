@@ -209,8 +209,9 @@ EOF
 ![Image Upload Front End](screenshots/fileup-1.png)  
 2. Use the upload field to upload `shell.png.php`.  
 ![Upload Image Success](screenshots/fileup-3.png)  
-3. Observe the site responds `file upload successful` (or similar).
+3. Observe the site responds `file upload successful` (or similar).  
 ![File Uploaded Successfully Message](screenshots/fileup-6.png)  
+
 ### 6.4 Trigger the web shell
 Access the uploaded file with a command parameter:
 ```bash
