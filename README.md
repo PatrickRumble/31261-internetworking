@@ -15,35 +15,37 @@ The environment consists of three interconnected virtual machines:
 - Develop a defensive mindset by learning mitigation strategies.
 
 ## 📂 Repository Structure
-31261-internetworking/  
-├── README.md # Project overview (this file)  
-├── prerequisites.md # Setup instructions and requirements  
-├── docs/ # Project-wide documentation  
-│ ├── reset.md  
-│ ├── future-plans.md  
-│ └── references.md  
-├── labs/  
-│ ├── 00-introduction/  
-│ │ └── overview.md  
-│ ├── 01-linux-vm/  
-│ │ ├── overview.md  
-│ │ ├── vulnerabilities.md  
-│ │ └── instructions.md  
-│ ├── 02-windows-vm/  
-│ │ ├── overview.md  
-│ │ ├── vulnerabilities.md    
-│ │ └── instructions.md  
-│ ├── 03-kali-attacker/  
-│ │ ├── overview.md  
-│ │ ├── tools.md  
-│ │ └── instructions.md  
+```
+31261-internetworking/
+├── README.md             # Project overview (this file)
+├── prerequisites.md      # Setup instructions and requirements
+├── docs/
+│   ├── reset.md
+│   ├── future-plans.md
+│   └── references.md
+├── labs/
+│   ├── 00-introduction/
+│   │   └── overview.md
+│   ├── 01-linux-vm/
+│   │   ├── overview.md
+│   │   ├── vulnerabilities.md
+│   │   └── instructions.md
+│   ├── 02-windows-vm/
+│   │   ├── overview.md
+│   │   ├── vulnerabilities.md
+│   │   └── instructions.md
+│   └── 03-kali-attacker/
+│       ├── overview.md
+│       ├── tools.md
+│       └── instructions.md
+```
 
 ## 🚀 How to Use
 1. Begin with `prerequisites.md` to set up the environment.  
 2. Read the **00-introduction** lab for project context.  
 3. Work through **Linux (01)** and **Windows (02)** labs in order.  
    - You will use the **Kali Attacker VM** during these labs to perform exploits.  
-4. Use the **03-Kali-Attacker** lab as a dedicated reference for learning penetration testing tools (Nmap, Burp Suite, Metasploit, etc.).  
+4. Use the **03-Kali-Attacker** lab as a dedicated reference for learning penetration testing tools.  
    - Refer back to it whenever a Linux/Windows lab mentions a tool.
 
 ## ⚠️ Disclaimer
