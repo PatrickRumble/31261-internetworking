@@ -1,132 +1,123 @@
 # Windows VM Vulnerabilities
 
-This document highlights the deliberate vulnerabilities included in the Windows target VM. Each vulnerability is presented with a clear description, educational purpose, real-world relevance, and an example demonstrating the practical impact.
+This document highlights the deliberate vulnerabilities included in the Windows target VM. Each vulnerability is presented with a clear **Description**, **Educational Purpose**, **Real-World Relevance**, an **Example**, and **Mitigations (brief)** — matching the structure used for the Linux vulnerabilities document.
 
 ---
 
 ## Remote Desktop Protocol (RDP) / Remote Code Execution (RCE)
 
 **Description:**  
-The **Remote Desktop Protocol (RDP)** enables remote users to connect to a Windows system with a graphical session. When RDP is misconfigured (for example: NLA disabled, weak credentials, exposed port 3389, or missing patches), it can be abused to achieve **remote code execution (RCE)** or full system compromise. Historic vulnerabilities such as *BlueKeep* (CVE-2019-0708) illustrate the severe impact of unpatched RDP stacks.
+**Remote Desktop Protocol (RDP)** provides graphical remote access to Windows systems. When RDP is misconfigured (for example: NLA disabled, weak credentials, exposed port 3389, or missing patches), it can be abused to gain **remote code execution (RCE)** or full control of the target. Historical vulnerabilities (e.g., *BlueKeep*) show how unpatched RDP stacks can be weaponised.
 
 **Educational Purpose:**  
-Students will learn how exposed RDP endpoints are identified, how weak configuration and credentials can be abused, and how attackers move from RDP access to post-exploitation. Defensive exercises focus on enforcing NLA, using strong authentication (MFA), restricting RDP exposure, and monitoring authentication logs.
+Students will learn how to discover exposed RDP endpoints, assess authentication and configuration weaknesses, and observe how access can lead to post-exploitation activities. Exercises are designed to show both offensive techniques (scanning, brute force, session access) and defensive controls (NLA, account lockouts, patching, MFA).
 
 **Real-World Relevance:**  
-RDP is a frequent initial access vector for ransomware and intrusions. Unpatched or internet-exposed RDP services are regularly targeted by opportunistic and targeted attackers. Securing RDP is critical for preventing high-impact breaches in enterprise and cloud environments.
+RDP is a frequent initial access vector for ransomware and targeted intrusions. Unpatched or internet-exposed RDP services are regularly scanned and attacked by opportunistic actors. Securing RDP is critical to preventing high-impact compromises in enterprise and cloud environments.
 
 **Example:**  
-An attacker scans the subnet, finds a host with TCP/3389 open and NLA disabled, and uses an RDP client (or brute-forcing tool) to obtain a remote desktop session. From the session, the attacker runs commands, installs tools, and attempts privilege escalation.
+An attacker scans the subnet, finds TCP/3389 open on a host with NLA disabled, brute-forces an Administrator account with a weak password, and gains an interactive desktop session. From the session, the attacker runs commands and deploys tools.
 
-**Example commands (scanning & connection):**
-<pre><code class="language-bash">
-# From attacker (Kali) - quick scan
+```bash
+# scanning example (from attacker VM)
 nmap -Pn -p 3389 --open 192.168.56.0/24
 
-# Connect from Linux using xfreerdp
+# connect example (from Kali)
 xfreerdp /v:192.168.56.102 /u:Administrator
-
-# Or from Windows host (RDP client)
-mstsc /v:192.168.56.102
-</code></pre>
+```
 
 **Mitigations (brief):**
 
-- Enable **Network Level Authentication (NLA)**.  
-- Restrict RDP to trusted IPs or require VPN access.  
-- Enforce strong passwords and account lockout policy.  
-- Apply regular patching and reduce exposed RDP surfaces.  
-- Enable MFA for remote sessions and monitor event logs for anomalies.  
+* Enable **Network Level Authentication (NLA)**.  
+* Restrict RDP to trusted hosts or require VPN access.  
+* Enforce strong passwords and account lockout policies.  
+* Apply regular Windows security updates and minimize exposed RDP surfaces.  
+* Use MFA for remote access and monitor RDP logs for anomalous activity.
 
 ---
 
-## Unquoted Service Path Vulnerability
+## Unquoted Service Path
 
 **Description:**  
-An **unquoted service path** appears when a Windows service executable path contains spaces and is not enclosed in quotation marks. The Service Control Manager may interpret the path in chunks and attempt to execute earlier path segments (e.g., `C:\Program.exe`) before the intended binary, allowing an attacker who can write to those locations to execute code with the service’s privileges (often SYSTEM).
+An **unquoted service path** occurs when a Windows service binary path contains spaces but is not enclosed in quotation marks. The Service Control Manager may parse the path and attempt to execute earlier segments (e.g., `C:\Program.exe`) if present — allowing an attacker who can place a binary at that location to execute code with the service’s privileges (often SYSTEM).
 
 **Educational Purpose:**  
-Students will identify unquoted service paths (using `sc qc` and PowerShell), reproduce the issue in a controlled VM (using harmless binaries), and remediate it by quoting the binary path. The exercise demonstrates how trivial deployment mistakes can lead to full local privilege escalation.
+Students will identify unquoted service paths using `sc qc` and PowerShell, reproduce the issue in a safe VM, observe privilege escalation using harmless payloads, and remediate the configuration. The exercise demonstrates how minor deployment mistakes can enable full local privilege escalation.
 
 **Real-World Relevance:**  
-Many legacy installers and badly packaged applications contain unquoted paths. Attackers frequently exploit these during local privilege escalation in post-compromise scenarios. Regular auditing and secure packaging practices eliminate this class of vulnerability.
+Unquoted service paths are a common legacy misconfiguration found in poorly packaged or old software. Attackers often exploit them during post-compromise to gain SYSTEM privileges. Regular audits, secure packaging, and correct install scripts prevent this issue.
 
-**Reproducible lab steps (concise):**
-<pre><code class="language-powershell">
-# (Run in an elevated Command Prompt or PowerShell inside the Windows lab VM)
+**Example:**  
+A vulnerable service is configured with `BINARY_PATH_NAME : C:\Program Files\Test Service\service.exe`. An attacker places `C:\Program.exe` (a malicious binary). When the service starts, Windows executes `C:\Program.exe` instead of the intended binary — running attacker code as the service account.
 
-REM create test folder and place proof payload (harmless calc.exe copy)
+```powershell
+# example steps (run in elevated CMD/PowerShell inside lab VM)
 mkdir "C:\Program Files\Test Service"
 copy "%WINDIR%\System32\calc.exe" "C:\Program Files\Test Service\service.exe" /Y
 copy "%WINDIR%\System32\calc.exe" "C:\Program.exe" /Y
 
-REM create a service using the unquoted path (example)
-sc create VulnerableTest binPath= "C:\Program Files\Test Service\service.exe" DisplayName= "Vulnerable Test Service" start= auto
-
-REM verify the binary path (shows unquoted path)
+sc create VulnerableTest binPath= "C:\Program Files\Test Service\service.exe" start= auto
 sc qc VulnerableTest
-
-REM start the service (will attempt to run C:\Program.exe first)
 sc start VulnerableTest
 
-REM remediation (quote the path)
+# Remediate by quoting the path:
 sc config VulnerableTest binPath= "\"C:\Program Files\Test Service\service.exe\""
 sc qc VulnerableTest
-</code></pre>
+```
 
 **Mitigations (brief):**
 
-- Quote executable paths for services with spaces.  
-- Audit installed services periodically (`Get-WmiObject Win32_Service` or `sc qc`).  
-- Restrict write permissions on system directories (root of C:\, Program Files).  
-- Use secure installers and configuration baselines to prevent misconfiguration.  
+* Always quote service binary paths that contain spaces.  
+* Audit services (`sc qc`, `Get-WmiObject Win32_Service`) to find unquoted entries.  
+* Restrict write permissions to system directories (e.g., `C:\`, `C:\Program Files`).  
+* Use secure installers and configuration baselines to prevent deployment mistakes.
 
 ---
 
-## NTLM / SMB Relay Attack
+## NTLM / SMB Relay
 
 **Description:**  
-**NTLM** (NT LAN Manager) authentication and **SMB** (Server Message Block) are common Windows networking mechanisms. When legacy name-resolution services like **LLMNR** and **NBT-NS** are active, an attacker can spoof name resolution responses, capture NTLM challenge/response hashes, and **relay** them to authenticate against other services (NTLM relay). This lets attackers impersonate users without knowledge of plaintext passwords.
+**NTLM** (NT LAN Manager) and **SMB** (Server Message Block) support authentication and file sharing in Windows networks. Legacy name-resolution protocols such as **LLMNR** and **NBT-NS** can be spoofed by an attacker, causing clients to authenticate to attacker-controlled hosts. Captured NTLM challenge/response data can be cracked offline or — more dangerously — **relayed** to other services to impersonate the user.
 
 **Educational Purpose:**  
-Students will use tools such as **Responder** and **ntlmrelayx** to capture and relay authentication attempts in a lab environment. The exercise demonstrates how automatic name-resolution and legacy authentication can be abused for lateral movement, and how mitigations like SMB signing and Kerberos-only configurations prevent such attacks.
+Students will capture and relay NTLM authentication in an isolated lab using tools like **Responder** and **ntlmrelayx**, learning how automatic name resolution and legacy authentication are abused. Defensive exercises cover disabling LLMNR/NBT-NS, enforcing SMB signing, and migrating to Kerberos.
 
 **Real-World Relevance:**  
-NTLM relay and LLMNR/NBT-NS poisoning are well-known techniques attackers use to escalate privileges and move laterally inside Windows networks. Real-world incidents often involve these methods to obtain domain-level access. Eliminating legacy protocols and enforcing secure authentication reduces this attack surface.
+NTLM relay and LLMNR poisoning are practical techniques used in lateral movement and privilege escalation. They have been leveraged in real intrusions to obtain domain credentials or to move laterally within an environment. Removing legacy protocols and enforcing secure authentication reduces this attack surface significantly.
 
-**Example scenario (simplified):**
+**Example (scenario):**  
 
-1. A user attempts to access `\\ManagerServer\payslips` but mistypes the hostname.  
-2. The client broadcasts an LLMNR/NBT-NS query on the local network.  
-3. The attacker responds and captures the NTLMv2 challenge-response.  
-4. The attacker either cracks the hash offline or relays it to another service to authenticate as the victim.
+1. A user types `\\ManagerServer\payslips\NovemberPayslip` but mistypes the hostname.  
+2. The client falls back to LLMNR/NBT-NS to resolve the name.  
+3. An attacker’s machine replies and receives an NTLMv2 challenge/response.  
+4. The attacker relays the authentication to another host to gain access or cracks the hash offline.
 
-**Example commands (attacker side):**
-<pre><code class="language-bash">
-# On attacker (Kali) - run Responder to capture poisoning responses
+```bash
+# Attacker (Kali) examples — lab only
+# Run Responder to capture LLMNR/NBT-NS/NetBIOS hashes
 sudo responder -I eth0 -wrf
 
-# Use ntlmrelayx to relay captured hashes to target services
-# (example usage; refer to tool docs and perform only in lab)
+# Relay captured hashes to an SMB target (lab-only, use responsibly)
 ntlmrelayx.py -t smb://192.168.56.102 -smb2support
-</code></pre>
+```
 
 **Mitigations (brief):**
 
-- Disable **LLMNR** and **NBT-NS** via Group Policy.  
-- Enforce **SMB signing** and prefer **Kerberos** for authentication.  
-- Restrict NTLM usage, disable NTLMv1, and monitor authentication logs.  
-- Segment networks and limit unnecessary SMB exposure.  
+* Disable **LLMNR** and **NBT-NS** via Group Policy.  
+* Enforce **SMB signing** and prefer **Kerberos** authentication.  
+* Restrict and monitor NTLM usage; disable NTLMv1 entirely.  
+* Segment networks and reduce unnecessary SMB exposure.  
+* Monitor authentication logs for unusual or repeated NTLM events.
 
 ---
 
 ## Key Takeaways
 
-* Enforce secure remote access: enable NLA, require MFA, restrict RDP to trusted networks, and patch regularly.  
-* Prevent trivial privilege escalation: always quote service paths and audit installed services.  
-* Eliminate legacy, insecure name-resolution and authentication protocols (LLMNR, NBT-NS, NTLMv1); prefer Kerberos and SMB signing.  
-* Apply the principle of least privilege across services, accounts, and filesystem permissions.  
-* Monitor logs for anomalous authentication or service behaviour, and maintain a fast patch cadence.  
-* Test both offensive and defensive controls in an isolated lab before applying changes in production.
+* Secure remote access: enable NLA, use MFA, restrict RDP to trusted networks, and patch promptly.  
+* Prevent local privilege escalation: always quote service paths and audit service configurations.  
+* Eliminate or restrict legacy protocols (LLMNR, NBT-NS, NTLMv1); enforce SMB signing and Kerberos.  
+* Apply least privilege to services and file system permissions; restrict write access to system locations.  
+* Monitor logs and network activity for suspicious authentication and service behaviour.  
+* Practice offensive and defensive controls in isolated lab environments before applying changes to production.
 
 ---
