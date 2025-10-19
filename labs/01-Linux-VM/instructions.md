@@ -287,5 +287,4 @@ http://fileupload.local/Uploads/shell.png.php?cmd=id
 - Reproduce carefully and document every step.  
 - Reset the VM between groups or revert to a snapshot after testing.  
 - Always include responsible disclosure language when testing anything outside this lab.  
-- If you want a one-page printable quick reference or a PDF-ready plain-text version, I can convert this for you.
 

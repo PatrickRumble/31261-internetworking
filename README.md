@@ -21,8 +21,7 @@ The environment consists of three interconnected virtual machines:
 ├── prerequisites.md      # Setup instructions and requirements
 ├── docs/
 │   ├── reset.md
-│   ├── future-plans.md
-│   └── references.md
+│   └── future-plans.md
 ├── labs/
 │   ├── 00-introduction/
 │   │   └── overview.md
