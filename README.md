@@ -19,6 +19,7 @@ The environment consists of three interconnected virtual machines:
 31261-internetworking/
 ├── README.md             # Project overview (this file)
 ├── prerequisites.md      # Setup instructions and requirements
+├── all_docs.pdf          # All docs merged together for easier following
 ├── docs/
 │   ├── reset.md
 │   └── future-plans.md

@@ -1,0 +1,13 @@
+% header.tex -- included by pandoc to add header/footer
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\fancyhf{}
+% left header: course, center header empty, right header: document title
+\fancyhead[L]{31261 — Internetworking}
+\fancyhead[R]{\nouppercase{\leftmark}}
+\fancyfoot[C]{\thepage\ /\ \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+% reduce header spacing slightly
+\setlength{\headheight}{15pt}
