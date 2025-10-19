@@ -35,8 +35,7 @@ The environment consists of three interconnected virtual machines:
 │   │   └── instructions.md
 │   └── 03-kali-attacker/
 │       ├── overview.md
-│       ├── tools.md
-│       └── instructions.md
+│       └── tools.md
 ```
 
 ## 🚀 How to Use
