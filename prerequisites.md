@@ -146,11 +146,4 @@ sudo dhclient -v <interface>
 
 ---
 
-## Instructor notes & best practice
-- Provide a single `labs/common/scripts/find-targets.sh` script that runs `nmap -sn` and neatly prints results — reduces student confusion.  
-- Do **not** put real credentials in the public repo; use `creds.example` placeholders or distribute credentials via the LMS or instructor VM.  
-- Add a short Troubleshooting checklist to the top of each lab for fast self-resolution.
-
----
-
 Once networking is confirmed, proceed to `labs/00-introduction/overview.md` and follow the Quick Start there.
