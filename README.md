@@ -47,14 +47,16 @@ The environment consists of three interconnected virtual machines:
 4. Use the **03-Kali-Attacker** lab as a dedicated reference for learning penetration testing tools.  
    - Refer back to it whenever a Linux/Windows lab mentions a tool.  
    
-## Recommended Reading Format
+## 📖 Recommended Reading Format
 It is strongly recommended that users follow the lab documentation either:  
 
 1. Directly from the **GitHub repository**, where each lab and guide is organised in structured Markdown files, or  
 2. Using the compiled **all_docs.pdf** located in this folder.  
 
 The PDF version provides consistent formatting, clear section hierarchy, and embedded figures and screenshots — making it easier to read, print, or reference during lab exercises.  
+
 Following the documentation in one of these formats ensures you see the correct layout, code formatting, and image references as intended.  
+  
 
 ## ⚠️ Disclaimer
 This project is for **educational purposes only**.  
