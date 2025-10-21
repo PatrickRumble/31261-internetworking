@@ -164,14 +164,6 @@ systemctl status apache2  # or relevant service
 
 ---
 
-## 🧩 Best practices & instructor notes
-- Use snapshots named consistently: `baseline-windows`, `baseline-linux`, `baseline-kali`.  
-- Keep an OVA archive in the course appendix for full re-import.  
-- After restore, run the discovery workflow above and *record* each VM’s found IP + hostname in your lab notes.  
-- Do **not** publish or commit discovered IPs or instructor-only credentials to the repo.
-
----
-
 ## ✅ Summary
 - Always restore via snapshot where possible.  
 - If snapshots are unavailable, re-import the OVA.  
