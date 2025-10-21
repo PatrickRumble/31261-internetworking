@@ -104,7 +104,7 @@ Note the IPv4 address and subnet mask; use it to compute the scan subnet from Ka
 
 ---
 
-## ✅ Post-restore verification (DHCP-safe)
+## ✅ Post-restore verification
 
 Once you’ve discovered the VM IPs, verify services **by discovery** (examples):
 
@@ -141,7 +141,7 @@ systemctl status apache2  # or relevant service
 
 ---
 
-## ⚙️ Troubleshooting (DHCP-focused)
+## ⚙️ Troubleshooting
 
 - **Can't find hosts on the network?**  
   - Confirm VM network adapter is *Host-only/Internal* and attached to the same host-only network on each VM.  
